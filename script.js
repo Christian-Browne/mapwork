@@ -69,7 +69,13 @@ class App {
 
   //Constrcutor calls these methods right away
   constructor() {
+    // Get user's position
     this._getPosition();
+
+    //Get data from local storage
+    this._getlocalStorage();
+
+    // Attach event handlers
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
@@ -102,6 +108,10 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on('click', this._showForm.bind(this));
+
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(mapE) {
@@ -141,7 +151,6 @@ class App {
     const { lat, lng } = this.#mapEvent.latlng;
     let workout;
 
-    // TODO: If running create running obj
     if (type === 'running') {
       const cadence = Number(inputCadence.value);
       if (
@@ -153,7 +162,6 @@ class App {
       workout = new Running([lat, lng], distance, duration, cadence);
     }
 
-    // TODO: If cycling create cycling obj
     if (type === 'cycling') {
       const elevation = Number(inputElevation.value);
       if (
@@ -164,17 +172,17 @@ class App {
 
       workout = new Cycling([lat, lng], distance, duration, elevation);
     }
-    // TODO: add new object to workout array
     this.#workouts.push(workout);
 
-    // TODO: render workout on map as a marker
     this._renderWorkoutMarker(workout);
 
-    // TODO:render workout on list
     this._renderWorkout(workout);
 
     // Clear input fields
     this._hideForm();
+
+    //* Set local storage to all workouts
+    this._setLocalStorage();
   }
   _renderWorkoutMarker(workout) {
     L.marker(workout.coords)
@@ -260,6 +268,27 @@ class App {
         duration: 1,
       },
     });
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+
+  _getlocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+
+    if (!data) return;
+
+    this.#workouts = data;
+
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work);
+    });
+  }
+
+  rest() {
+    localStorage.removeItem('workouts');
+    location.reload();
   }
 }
 
