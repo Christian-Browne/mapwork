@@ -1,7 +1,7 @@
 # `- Mapty Mapwork -`
 
 ## 📕 Description
-Mapty Mapwork is a web mapping platform where users can log what workouts they did and where they completed them at on a map. Users can keep track of how well they did on their workout as Mapty Mapwork allows users to save their time, speed, etc.
+Mapty Mapwork is a web mapping platform where users can log what workouts they did and see where they completed them on a map. Users can keep track of how well they did on their workout as Mapty Mapwork allows users to save their time, speed, etc.
 
 ### <a href="https://christian-browne.github.io/mapwork/" target = "_blank">View Site</a>
 <img src="https://user-images.githubusercontent.com/66934782/169764105-c3c51e82-fc11-4ce9-b721-907a63d75dc4.png" style="width:500px;">
